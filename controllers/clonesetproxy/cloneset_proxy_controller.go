@@ -390,7 +390,8 @@ func (r *Reconciler) updateSourceStatus(src *apps.StatefulSet, dst *kruiseapps.C
 		CurrentRevision:    currentRevision,
 		UpdateRevision:     dst.Status.UpdateRevision,
 		CollisionCount:     dst.Status.CollisionCount,
-		Conditions:         convertCloneSetConditionToStatefulSetCondition(dst.Status.Conditions),
+		// condition 一般都是记录些啥信息呢, 找几个例子看看
+		Conditions: convertCloneSetConditionToStatefulSetCondition(dst.Status.Conditions),
 
 		Replicas:        dst.Status.Replicas,
 		ReadyReplicas:   dst.Status.ReadyReplicas,
@@ -433,7 +434,7 @@ func (r *Reconciler) updateSourceStatus(src *apps.StatefulSet, dst *kruiseapps.C
 
 /**
 为啥查看 revision 的时候, 还得取比较 pod 和 controller 的 revision 呢?
-pod 的 revison 和 controller 的 revions 是怎样变化的? 以前这些问题, 都没问, 现在都会遇到的...
+pod 的 revision 和 controller 的 revisions 是怎样变化的? 以前这些问题, 都没问, 现在都会遇到的...
 */
 func (r *Reconciler) getCurrentRevision(cloneSet *kruiseapps.CloneSet, updateRevision string) (string, error) {
 	selector, _ := metav1.LabelSelectorAsSelector(cloneSet.Spec.Selector)
